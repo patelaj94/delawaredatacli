@@ -8,8 +8,8 @@ import (
 var dataset string
 
 var datasetCmd = &cobra.Command{
-	Use:   "dataset",
-	Short: "List of Government Datasets",
+	Use:   "listdatasets",
+	Short: "List of Government Datasets.",
 	Long: `Command will return the available dataset endpoints you can call and query.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("dataset called 1")

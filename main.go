@@ -15,7 +15,7 @@ limitations under the License.
 */
 package main
 
-import "github.com/patelaj94/delawaredatacli/cmd"
+import "DelawareDataCLI/cmd"
 
 func main() {
 	cmd.Execute()

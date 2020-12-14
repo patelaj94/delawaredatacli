@@ -12,11 +12,9 @@ var datasetCmd = &cobra.Command{
 	Short: "List of Government Datasets.",
 	Long: `Command will return the available dataset endpoints you can call and query.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("dataset called 1")
 		for _, set := range getDataSets() {
 			fmt.Println(set)
 		}
-		fmt.Println("dataset called 2")
 	},
 }
 

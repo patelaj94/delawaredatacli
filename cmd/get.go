@@ -16,8 +16,10 @@ limitations under the License.
 package cmd
 
 import (
+	"flag"
 	"fmt"
 	"github.com/spf13/cobra"
+	"os"
 )
 
 var dataType string
@@ -28,6 +30,11 @@ var getCmd = &cobra.Command{
 	Long: `Upon providing a dataset type, you will be prompted to define filters and then this command will
 			gather the response from the delaware data api.`,
 	Run: func(cmd *cobra.Command, args []string) {
+		flag.Parse()
+		if err := validateFlags(); err != nil {
+			fmt.Fprintf(os.Stderr, "Error: %v", err)
+			os.Exit(1)
+		}
 		fmt.Print("You selected data type: " +  dataType)
 	},
 }
@@ -36,4 +43,17 @@ func init() {
 	rootCmd.AddCommand(getCmd)
 	getCmd.Flags().StringVarP(&dataType, "datatype", "d", "", "Data type to query")
 	getCmd.MarkFlagRequired("datatype")
+}
+
+func validateFlags() error {
+	validDataTypes := []string{"red", "blue", "yellow"}
+	for _, validDataType := range validDataTypes {
+		if dataType == validDataType {
+			// color is valid
+			return nil
+		}
+	}
+	// if we're here, color is invalid
+	return fmt.Errorf("Value '%s' is invalid for flag 'dataType'. Valid values "+
+		"come from the set %v", dataType, validDataTypes)
 }

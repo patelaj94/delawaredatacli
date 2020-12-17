@@ -16,6 +16,7 @@ limitations under the License.
 package cmd
 
 import (
+	"DelawareDataCLI/request"
 	"flag"
 	"fmt"
 	"github.com/spf13/cobra"
@@ -35,7 +36,8 @@ var getCmd = &cobra.Command{
 			fmt.Fprintf(os.Stderr, "Error: %v", err)
 			os.Exit(1)
 		}
-		fmt.Print("You selected data type: " +  dataType)
+		fmt.Println("You selected data type: " +  dataType)
+		request.DatasetResolver(dataType)
 	},
 }
 
@@ -46,7 +48,7 @@ func init() {
 }
 
 func validateFlags() error {
-	validDataTypes := []string{"red", "blue", "yellow"}
+	validDataTypes := request.Datasets()
 	for _, validDataType := range validDataTypes {
 		if dataType == validDataType {
 			// color is valid

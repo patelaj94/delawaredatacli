@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 	"github.com/spf13/cobra"
+	"DelawareDataCLI/request"
 )
 
 var dataset string
@@ -12,7 +13,7 @@ var datasetCmd = &cobra.Command{
 	Short: "List of Government Datasets.",
 	Long: `Command will return the available dataset endpoints you can call and query.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		for _, set := range getDataSets() {
+		for _, set := range request.Datasets(){
 			fmt.Println(set)
 		}
 	},
@@ -30,9 +31,4 @@ func init() {
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	// datasetCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
-}
-
-func getDataSets() []string {
-	var datasets = []string{"Student Enrollment", "Educator Salary"}
-	return datasets
 }

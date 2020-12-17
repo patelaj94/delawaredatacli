@@ -1,4 +1,4 @@
-package main
+package request
 
 import (
 	"DelawareDataCLI/datastructs"
@@ -16,9 +16,14 @@ type Result struct {
 	err   error
 }
 
-func test() {
+func Datasets() []string {
+	var datasets = []string{"StudentEnrollmentData", "EducatorAverageSalary"}
+	return datasets
+}
 
-	// TODO - Input for params will come from CLI input or GraphQL
+func DatasetResolver(datasetType string) {
+
+	// TODO: Input params should also come from cli input
 	params1 := make(map[string]string)
 	params1["race"] = "White"
 	params1["schoolcode"] = "418"
@@ -27,10 +32,13 @@ func test() {
 	// to experiment and learn go routines and channels
 	wg := sync.WaitGroup{}
 	ch := make(chan Result)
+	wg.Add(1)
 
-	wg.Add(2)
-	go educatorAverageSalaryCall(params1, ch, &wg)
-	go studentEnrollmentCall(params1, ch, &wg)
+	if "StudentEnrollmentData" == datasetType {
+		go studentEnrollmentCall(params1, ch, &wg)
+	} else if "EducatorAverageSalary" == datasetType {
+		go educatorAverageSalaryCall(params1, ch, &wg)
+	}
 
 	go func() {
 		wg.Wait()
@@ -41,11 +49,9 @@ func test() {
 		if resp.err != nil {
 			fmt.Printf("There was an error with your request", resp.err)
 		} else {
-			fmt.Println("You did it.")
 			fmt.Println(resp.value)
 		}
 	}
-
 }
 
 func studentEnrollmentCall(params map[string]string, ch chan Result, wg *sync.WaitGroup) {
